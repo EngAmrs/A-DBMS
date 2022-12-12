@@ -26,7 +26,14 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 		"2" "List your Databases" \
 		"3" "Conect to Database" \
 		"4" "Drop Database" 3>&1 1>&2 2>&3)
+	case $DB_Menu in
+		1)
+			echo "Create DataBase"
+			. ./createDB.sh
+		        DB_menu
+			;;
 
+	esac
 }
 
 DB_menu
