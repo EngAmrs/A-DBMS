@@ -1,8 +1,9 @@
 #!/bin/bash
 
-function DB_menu(){
-    
+function welcome(){
+########################    
 # Welcome message
+########################
 
 echo " _ _ _       _                       "
 echo "| | | | ___ | | ___  ___ ._ _ _  ___ "
@@ -19,14 +20,41 @@ echo "		                                                      "
 sleep 3
 clear
 
+}
 
+
+function DB_menu(){
+
+################################
 # Database Menu
+################################
 DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 		"1" "Create new Database" \
 		"2" "List your Databases" \
-		"3" "Conect to Database" \
+		"3" "Connect to Database" \
 		"4" "Drop Database" 3>&1 1>&2 2>&3)
 
+
+################################
+# Options
+################################
+	case $DB_Menu in
+
+		3)
+				echo "Conect to Database"
+				dbConnect=$(dialog --title "Conecting..." --inputbox "Enter the database name" 10 60 3>&1 1>&2 2>&3)
+				echo $dbConnect
+				. ./"Database functions"/connect.sh	
+			;;
+		4)
+			echo "Drop Database"
+			dropName=$(dialog --title "Droping..." --inputbox "Enter the database name" 10 60 3>&1 1>&2 2>&3)
+			echo $dropName
+			. ./"Database functions"/drop.sh
+				;;
+
+		esac
 }
 
+welcome
 DB_menu
