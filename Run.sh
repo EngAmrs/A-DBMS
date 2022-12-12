@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Welcome message
+clear 
 
 echo " _ _ _       _                       "
 echo "| | | | ___ | | ___  ___ ._ _ _  ___ "
@@ -21,7 +22,7 @@ clear
 function DB_menu(){
    
 # Database Menu
-DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
+DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 11 70 4 \
 		"1" "Create new Database" \
 		"2" "List your Databases" \
 		"3" "Conect to Database" \
@@ -32,6 +33,13 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 			. ./createDB.sh
 		        DB_menu
 			;;
+		2)
+                        echo "List & Number of  DataBases"
+			databaselist=$(ls -d */)
+                        databaseNo=$(ls -d */ | cut -f1 -d"/" | wc -w)
+			dialog --title "Number of DataBases  No-{$databaseNo}" --msgbox "$databaselist" 20 45
+			DB_menu
+                        ;;
 
 	esac
 }
