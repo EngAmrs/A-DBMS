@@ -3,6 +3,7 @@
 function welcome(){
 ########################    
 # Welcome message
+clear 
 ########################
 
 echo " _ _ _       _                       "
@@ -27,6 +28,7 @@ function DB_menu(){
 
 ################################
 # Database Menu
+DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 11 70 4 \
 ################################
 DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 		"1" "Create new Database" \
@@ -36,6 +38,16 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 	case $DB_Menu in
 		1)
 			echo "Create DataBase"
+			. ./createDB.sh
+		        DB_menu
+			;;
+		2)
+                        echo "List & Number of  DataBases"
+			databaselist=$(ls -d */)
+                        databaseNo=$(ls -d */ | cut -f1 -d"/" | wc -w)
+			dialog --title "Number of DataBases  No-{$databaseNo}" --msgbox "$databaselist" 20 45
+			DB_menu
+                        ;;
 			. ./"Database functions"/createDB.sh
 		        DB_menu
 			;;
