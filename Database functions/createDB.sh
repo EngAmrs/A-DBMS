@@ -12,14 +12,14 @@ if [[ -d $dbName ]]; then
 	echo "DataBase $dbName Already Exists";
 	dialog --title "Create Database" --msgbox "DataBase $dbName Already Exists" 9 50
 
-elif [[ $dbName == *['!'@#\$%^\&*()+]* ]] || [[ $dbName == [0-9]* ]] ; then
+elif [[ $dbName == *['!'@#\$%^\&*().\,\:\;\/\\\"\'\{\}\`\~\-\^\%\$\<\>\?\|+]* ]] || [[ $dbName == [0-9]* ]] ; then
 
 	dialog --title "Create Database" --msgbox "{$dbName} not valid name DB please try again" 9 50
 
 elif [[ $dbName != *['!'@#\$%^\&*()+]* ]] && [[ ! -d $dbName ]] && [[ $dbName != "" ]]; then
 	
 	dbName+=.db
-	mkdir databases/$dbName
+	mkdir -p databases/$dbName
 	echo "Your DataBase $dbName sucessfully created"
 	dialog --title "Create Database" --msgbox "$dbName database has been sucessfully created" 9 50
 	break

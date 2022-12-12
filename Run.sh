@@ -62,7 +62,9 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 				;;
 
 		esac
+clear
 }
+
 
 welcome
 DB_menu
