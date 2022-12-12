@@ -2,10 +2,9 @@
 
 function welcome(){
 ########################    
-# Welcome message
-clear 
+# Welcome message 
 ########################
-
+clear
 echo " _ _ _       _                       "
 echo "| | | | ___ | | ___  ___ ._ _ _  ___ "
 echo "| | | |/ ._>| |/ | '/ . \| ' ' |/ ._>"
@@ -28,7 +27,6 @@ function DB_menu(){
 
 ################################
 # Database Menu
-DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 11 70 4 \
 ################################
 DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 		"1" "Create new Database" \
