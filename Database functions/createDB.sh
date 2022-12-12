@@ -5,22 +5,22 @@
 while [ 1 ]
 do
 
-dbName=$(dialog --title "Create DataBase" --inputbox "Enter your data base name to creat" 8 45 3>&1 1>&2 2>&3)
+dbName=$(dialog --title "Create DataBase" --inputbox "Enter the database name" 8 45 3>&1 1>&2 2>&3)
 
 if [[ -d $dbName ]]; then
 
 	echo "DataBase $dbName Already Exists";
-	whiptail --title "Create Databse Message" --msgbox "DataBase $dbName Already Exists" 8 45
+	dialog --title "Create Database" --msgbox "DataBase $dbName Already Exists" 9 50
 
 elif [[ $dbName == *['!'@#\$%^\&*()+]* ]]; then
 
-	dialog --title "Create Databse Message" --msgbox "{$dbName} not valid name DB please try again" 8 45
+	dialog --title "Create Database" --msgbox "{$dbName} not valid name DB please try again" 9 50
 
 elif [[ $dbName != *['!'@#\$%^\&*()+]* ]] && [[ ! -d $dbName ]]; then
 
 	mkdir $dbName
 	echo "Your DataBase $dbName sucessfully created"
-	whiptail --title "Create Databse Message" --msgbox "Your DataBase $dbName sucessfully created" 8 45
+	dialog --title "Create Database" --msgbox "$dbName database has been sucessfully created" 9 50
 	break
 else	
 	break

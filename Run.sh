@@ -40,7 +40,7 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 		        DB_menu
 			;;
 		3)
-				echo "Conect to Database"
+				echo "Connect to Database"
 				dbConnect=$(dialog --title "Conecting..." --inputbox "Enter the database name" 10 60 3>&1 1>&2 2>&3)
 				echo $dbConnect
 				. ./"Database functions"/connect.sh	
