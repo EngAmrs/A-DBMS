@@ -36,19 +36,16 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 	case $DB_Menu in
 		1)
 			echo "Create DataBase"
-			. ./createDB.sh
-		        DB_menu
-			;;
-		2)
-                        echo "List & Number of  DataBases"
-			databaselist=$(ls -d */)
-                        databaseNo=$(ls -d */ | cut -f1 -d"/" | wc -w)
-			dialog --title "Number of DataBases  No-{$databaseNo}" --msgbox "$databaselist" 20 45
-			DB_menu
-                        ;;
 			. ./"Database functions"/createDB.sh
 		        DB_menu
-			;;
+			;;	
+		2)
+            echo "List & Number of  DataBases"
+			databaselist=$(ls -d */)
+            databaseNo=$(ls -d */ | cut -f1 -d"/" | wc -w)
+			dialog --title "Number of DataBases  No-{$databaseNo}" --msgbox "$databaselist" 20 45
+			DB_menu
+            ;;
 		3)
 				echo "Connect to Database"
 				dbConnect=$(dialog --title "Conecting..." --inputbox "Enter the database name" 10 60 3>&1 1>&2 2>&3)
