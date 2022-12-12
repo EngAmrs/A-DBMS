@@ -38,7 +38,7 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 			echo "Create DataBase"
 			. ./"Database functions"/createDB.sh
 		        DB_menu
-			;;	
+			;;
 		2)
             echo "List & Number of  DataBases"
 			databaselist=$(ls -d */)
