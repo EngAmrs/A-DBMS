@@ -1,7 +1,5 @@
 #!/bin/bash
 
-function DB_menu(){
-    
 # Welcome message
 echo ""
 echo ""  
@@ -19,6 +17,8 @@ echo ""
 
 sleep 3
 
+function DB_menu(){
+   
 # Database Menu
 DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 20 80 6 \
 		"1" "Create new Database" \
