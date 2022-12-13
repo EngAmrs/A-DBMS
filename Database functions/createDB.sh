@@ -16,15 +16,14 @@ elif [[ $dbName == *['!'@#\$%^\&*().\,\:\;\/\\\"\'\{\}\`\~\-\^\%\$\<\>\?\|+]* ]]
 
 	dialog --title "Create Database" --msgbox "{$dbName} not valid name DB please try again" 9 50
 
-elif [[ $dbName != *['!'@#\$%^\&*()+]* ]] && [[ ! -d $dbName ]] && [[ $dbName != "" ]]; then
+elif [[ $dbName != *['!'@#\$%^\&*().\,\:\;\/\\\"\'\{\}\`\~\-\^\%\$\<\>\?\|+]* ]] && [[ ! -d $dbName ]] && [[ $dbName != "" ]]; then
 	
 	dbName+=.db
 	mkdir -p databases/$dbName
 	echo "Your DataBase $dbName sucessfully created"
 	dialog --title "Create Database" --msgbox "$dbName database has been sucessfully created" 9 50
 	break
-
-else	
+else 
 	break
 fi
 
