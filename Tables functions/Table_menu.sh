@@ -16,6 +16,16 @@ Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 17 60 0\
                                 
 
 
+				2)
+					tablelist=$(ls)
+					tablelistNo=$(ls | cut -f1 -d" " | wc -w)
+                           		dialog --title "Number of tables No-{$tablelistNo}" --msgbox "$tablelist `pwd`" 8 45
+					Table_menu 
+					;;
+				3)
+					. ./../../"Tables functions"/droptable.sh
+					Table_menu
+					;;
                                 8)
                                         cd ../../
                                         ;;

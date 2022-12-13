@@ -20,6 +20,7 @@ elif [[ $dbName != *['!'@#\$%^\&*().\,\:\;\/\\\"\'\{\}\`\~\-\^\%\$\<\>\?\|+]* ]]
 	
 	dbName+=.db
 	mkdir -p databases/$dbName
+	dbName=${dbName::-3}
 	echo "Your DataBase $dbName sucessfully created"
 	dialog --title "Create Database" --msgbox "$dbName database has been sucessfully created" 9 50
 	break
