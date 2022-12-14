@@ -18,6 +18,7 @@ Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 17 60 0\
                                         ;;
 
 				2)
+<<<<<<< HEAD
 					table_list=`ls`
 					table_list_count=$(ls | cut -f1 -d" " | wc -w)
                            		dialog --title "Number of tables {$table_list_count}" --msgbox "$table_list" 10 50
