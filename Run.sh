@@ -48,7 +48,7 @@ DB_Menu=$(dialog --title "DBMS Menu" --fb --menu "Select: " 12 70 4 \
 		2)
             echo "List & Number of  DataBases"
 			cd databases
-			databaselist=$(ls -d *.db)
+			databaselist=$(ls -d *.db | rev |cut -c4-| rev )
            		databaseNo=$(ls -d *.db | cut -f1 -d"/" | wc -w)
 			dialog --title "Number of DataBases  No-{$databaseNo}" --msgbox "$databaselist" 20 45
 			cd ../
