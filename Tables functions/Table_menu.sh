@@ -13,14 +13,15 @@ Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 17 60 0\
                                 "8" "Back to DBMS menu" 3>&1 1>&2 2>&3)
 
                         case $Table_menu in
-                                
-
+                                1)
+                                        . ../../"Tables functions"/Create_table.sh
+                                        ;;
 
 				2)
-					tablelist=$(ls)
-					tablelistNo=$(ls | cut -f1 -d" " | wc -w)
-                           		dialog --title "Number of tables No-{$tablelistNo}" --msgbox "$tablelist `pwd`" 8 45
-					Table_menu 
+					table_list=`ls`
+					table_list_count=$(ls | cut -f1 -d" " | wc -w)
+                           		dialog --title "Number of tables {$table_list_count}" --msgbox "$table_list" 10 50
+					Table_menu
 					;;
 				3)
 					. ./../../"Tables functions"/droptable.sh
