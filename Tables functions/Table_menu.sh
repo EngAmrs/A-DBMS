@@ -15,10 +15,10 @@ Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 17 60 0\
                         case $Table_menu in
                                 1)
                                         . ../../"Tables functions"/Create_table.sh
+                                        Table_menu
                                         ;;
 
 				2)
-<<<<<<< HEAD
 					table_list=`ls`
 					table_list_count=$(ls | cut -f1 -d" " | wc -w)
                            		dialog --title "Number of tables {$table_list_count}" --msgbox "$table_list" 10 50
