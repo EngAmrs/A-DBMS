@@ -13,6 +13,9 @@ table=$(dialog --title "Creating table..." --inputbox "Enter the table name" 9 5
 if [[ -f $table ]] && [[ $table != "" ]]; then
 dialog --title "Creating table..." --msgbox "$table is already exist!" 9 50
 
+elif [[ $table == *['!'@#\$%^\&*().\,\:\;\/\\\"\'\{\}\`\~\-\^\%\$\<\>\?\|+" ""]""["]* ]] || [[ $table == [0-9]* ]] || [[ $table == "" ]]; then
+	dialog --title "Creating table..." --msgbox "{$table} is not valid name, please try again" 9 50
+
 else
 	cols_number=$(dialog --title "Creating columns..." --inputbox "Enter column number" 9 50 3>&1 1>&2 2>&3)
 	touch $table
@@ -21,7 +24,7 @@ else
 		do
 			
 				col_name=$(dialog --title "column Name" --inputbox "Enter Column $count Name "  9 50 3>&1 1>&2 2>&3)
-
+				
 				datatypeMenu=$(dialog --title "Data Type Menu " --fb --menu "select Data Type" 15 60 4 \
 						"1" "int" \
 						"2" "str" \
