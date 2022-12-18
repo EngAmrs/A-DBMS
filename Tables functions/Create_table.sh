@@ -8,24 +8,24 @@ fasel=":"
 while true
 do
 
-table=$(dialog --title "Creating table..." --inputbox "Enter the table name" 9 50 3>&1 1>&2 2>&3)
+table=$(dialog --title "Creating table..." --inputbox "Enter the table name" 8 45 3>&1 1>&2 2>&3)
 
 if [[ -f $table ]] && [[ $table != "" ]]; then
-dialog --title "Creating table..." --msgbox "$table is already exist!" 9 50
+dialog --title "Creating table..." --msgbox "$table is already exist!" 8 45
 
 elif [[ $table == *['!'@#\$%^\&*().\,\:\;\/\\\"\'\{\}\`\~\-\^\%\$\<\>\?\|+" ""]""["]* ]] || [[ $table == [0-9]* ]] || [[ $table == "" ]]; then
-	dialog --title "Creating table..." --msgbox "{$table} is not valid name, please try again" 9 50
+	dialog --title "Creating table..." --msgbox "{$table} is not valid name, please try again" 8 45
 
 else
-	cols_number=$(dialog --title "Creating columns..." --inputbox "Enter column number" 9 50 3>&1 1>&2 2>&3)
+	cols_number=$(dialog --title "Creating columns..." --inputbox "Enter column number" 8 45 3>&1 1>&2 2>&3)
 	touch $table
 	touch .$table
 	while [ $count -le $cols_number ]
 		do
 			
-				col_name=$(dialog --title "column Name" --inputbox "Enter Column $count Name "  9 50 3>&1 1>&2 2>&3)
+				col_name=$(dialog --title "column Name" --inputbox "Enter Column $count Name "  8 45 3>&1 1>&2 2>&3)
 				
-				datatypeMenu=$(dialog --title "Data Type Menu " --fb --menu "select Data Type" 15 60 4 \
+				datatypeMenu=$(dialog --title "Data Type Menu " --fb --menu "select Data Type" 15 50 4 \
 						"1" "int" \
 						"2" "str" \
 						"3" "boolean" 3>&1 1>&2 2>&3)
@@ -44,7 +44,7 @@ else
 
 
 			if [[ $isPK -ne 1 ]]; then
-				PK_menu=$(dialog --title "Primary Key" --fb --menu "Would you like to create it as a primary_key?" 20 50 4 \
+				PK_menu=$(dialog --title "Primary Key" --fb --menu "Would you like to create it as a primary_key?" 15 50 4 \
 					"1" "Yes" \
 					"2" "No" 3>&1 1>&2 2>&3)
 
@@ -81,7 +81,7 @@ else
 			
 		((count++))
 	done
-dialog --title "Create table" --infobox "$tableName table has been created sucessfully" 9 50
+dialog --title "Create table" --infobox "$tableName table has been created sucessfully" 8 45
 sleep 1
 break
 

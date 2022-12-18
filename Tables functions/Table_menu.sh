@@ -2,7 +2,7 @@
 
 function Table_menu (){
 
-Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 17 60 0\
+Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 16 70 8\
                                 "1" "Create Table" \
                                 "2" "List Tables" \
                                 "3" "Drop Table" \
