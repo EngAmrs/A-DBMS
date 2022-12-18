@@ -11,15 +11,15 @@ if [[ -d databases/$dropName ]] && [[ $dropName != .db  ]] ; then
 	
 	rm -R databases/$dropName
 	dropName=${dropName::-3}
-	dialog --title "Drop Databse" --msgbox "$dropName database has been dropped sucessfully" 9 50
-	#echo "$dropName database has been dropped sucessfully"
+	dialog --title "Drop Databse" --infobox "$dropName database has been dropped sucessfully" 9 50
+	sleep 1
 	break
 
 elif [[ ! -d databases/$dropName ]] && [[ $dropName != .db  ]] ; then
  	
 	dropName=${dropName::-3}
 	dialog --title "Drop Databse" --msgbox "$dropName database not found!" 9 50
-	#echo "Database not found!"
+
 else	
 	break
 fi
