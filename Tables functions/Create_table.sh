@@ -1,6 +1,6 @@
 #!/bin/bash
 typeset -i isPK=0
-typeset -i cols_number=0
+cols_number=""
 pk=""
 datatype=""
 count=1
@@ -24,8 +24,21 @@ do
 		
 		#================
 		# Columns creation
-		#================	
-		cols_number=$(dialog --title "Creating columns..." --inputbox "Enter column number" 8 45 3>&1 1>&2 2>&3)
+		#================
+		
+		for (( ; ; ))
+		do
+			cols_number=$(dialog --title "Creating columns..." --inputbox "Enter column number" 8 45 3>&1 1>&2 2>&3)
+			if [[ $cols_number == *[a-zA-Z]* ]] || [[ $cols_number == 0 ]] || [[ $cols_number == *['!'@#\$%^\&*().\,\:\;\/\\\"\'\{\}\`\~\-\^\%\$\<\>\?\|+" ""]""["]* ]]; then
+				dialog --title "Creating Column..." --infobox "Incorrect enter, Please try again!" 8 45
+				sleep 1
+			elif [[ $cols_number == "" ]]; then
+				break 2
+			else
+				break	
+			fi
+		done
+
 		touch $table
 		touch .$table
 		while [ $count -le $cols_number ]
@@ -66,6 +79,16 @@ do
 								;;
 					esac
 
+					### Add to tables ###
+						if [[ $count -eq $cols_number ]]; then
+							echo  $col_name >> $table;
+							echo  $col_name":"$datatype >> .$table;
+
+						else
+							echo -n $col_name":" >> $table;
+							echo  $col_name":"$datatype >> .$table;
+						fi
+
 					### Primary key ###
 					if [[ $isPK -ne 1 ]]; then
 						PK_menu=$(dialog --title "Primary Key" --fb --no-cancel --menu "Would you like to create it as a primary_key?" 15 50 4 \
@@ -77,12 +100,9 @@ do
 								isPK=1
 								pk="(PK)"
 								if [[ $count -eq $cols_number ]]; then
-									echo  $col_name >> $table;
-									echo  $col_name":"$datatype":"$pk >> .$table;
-
+									sed -i '$s/$/'":"$pk'/' .$table;
 								else
-									echo -n $col_name":" >> $table;
-									echo  $col_name":"$datatype":"$pk >> .$table;
+									sed -i '$s/$/'":"$pk'/' .$table;
 								fi
 								;;
 							2)
@@ -90,18 +110,8 @@ do
 								;;
 						esac
 
-					else
-						### Add to tables ###
-						if [[ $count -eq $cols_number ]]; then
-							echo  $col_name >> $table;
-							echo  $col_name":"$datatype >> .$table;
-
-						else
-							echo -n $col_name":" >> $table;
-							echo  $col_name":"$datatype":" >> .$table;
-						fi
-
 					fi
+					
 				((count++))
 			else
 				break
