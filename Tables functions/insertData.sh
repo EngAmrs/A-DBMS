@@ -34,7 +34,7 @@ do
 				while [[ true ]]; do 
 			
 
-				   if [[ $record =~ ^[`awk 'BEGIN{FS=":" ; ORS=" "}{if(NR != 1)print $(('$i'-1))}' $tableName`]$ ]]; then
+				   if [[ `awk 'BEGIN{FS=":" ; ORS=" "}{if(NR != 1 && $(('$i')) == "'$record'" ) print $(('$i'))}' $tableName` != "" ]];then
 
 				      dialog --title "Error Message" --msgbox "Primary key can't be duplicated try again" 8 45
 
@@ -42,7 +42,6 @@ do
 						 8 45 3>&1 1>&2 2>&3)
 
 				      test ##calling test function 
-
 				   else
 
 				      break;

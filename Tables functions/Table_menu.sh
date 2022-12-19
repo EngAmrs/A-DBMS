@@ -32,6 +32,10 @@ Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 16 70 8\
 				4) 	. ./../../"Tables functions"/insertData.sh
 					Table_menu
 					;;
+
+				5) 	. ./../../"Tables functions"/selectMenu.sh
+					Table_menu
+					;;
 					
                                 8)
                                         cd ../../
