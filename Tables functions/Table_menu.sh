@@ -36,7 +36,10 @@ Table_menu=$(dialog --title "Table options" --fb --menu "select... :" 16 70 8\
 				5) 	. ./../../"Tables functions"/selectMenu.sh
 					Table_menu
 					;;
-					
+				
+				7) 	. ./../../"Tables functions"/Update_table.sh
+					Table_menu
+					;;	
                                 8)
                                         cd ../../
                                         ;;

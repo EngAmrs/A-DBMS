@@ -19,7 +19,7 @@ menu=$(dialog --title "Select Menu" --fb --menu "select options:" 17 60 0\
 
 							cat $tableName | awk -F: 'BEGIN{OFS="\t"}{for(n = 0; n <= NF; n++) $n=$n}  1' > fil
 							numCol="$(cat $tableName | awk -F ":" 'END{print NF}')"
-							. ../../prettytable
+							. ../../.prettytable
 							whiptail --title "Table Records" --msgbox "$(cat fil | prettytable ${numCol})" 18 70
 							rm fil
 							break
@@ -55,7 +55,7 @@ menu=$(dialog --title "Select Menu" --fb --menu "select options:" 17 60 0\
 							`awk 'BEGIN{FS=":"}{print $(('$checkcolumnfound'))}' $tableName > fil`
 
 							numCol="$(cat $tableName | awk -F ":" 'END{print NF}')"
-							. ../../prettytable
+							. ../../.prettytable
 							whiptail --title "Table Records" --msgbox "$(cat fil | prettytable 1)" 18 70
 							rm fil
 
