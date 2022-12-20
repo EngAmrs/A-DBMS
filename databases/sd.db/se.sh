@@ -1,13 +1,18 @@
 #!/bin/bash
+num=3
+record=''
 
-record=9
-tableName="fi"
+
+sum $num
+
+tableName="file"
 i=1
 
+awk 'BEGIN{FS=":";OFS=":"}{if($0!=""){print '$record'}}' $tableName >> fil
 
 
-if [[ `awk 'BEGIN{FS=":" ; ORS=" "}{if(NR != 1 && $(('$i')) == "'$record'" ) print $(('$i'))}' $tableName` != "" ]];then
-	echo "found"
-else
-	echo "not found"
-fi
+function sum(){
+
+	record+='$(('$1'))'
+
+}
