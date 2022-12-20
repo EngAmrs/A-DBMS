@@ -22,8 +22,8 @@ do
 			checkDataType=`awk 'BEGIN {FS=":"}{if ( NR=='$i' ) print $2 }' .$tableName`
 			checkIsPrimary=`awk 'BEGIN {FS=":"}{if ( NR=='$i' ) print $3 }' .$tableName`
 			
-			record=$(dialog --title "Record Data" --inputbox "Enter data for $checkColName with in data type ($checkDataType)" \
-				 8 45 3>&1 1>&2 2>&3)
+			record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
+				 8 50 3>&1 1>&2 2>&3)
 	
 			test ##calling test function 
 
@@ -33,13 +33,18 @@ do
 
 				while [[ true ]]; do 
 			
+				   if [[ $record == "" ]];then
+				      dialog --title "Error Message" --msgbox "Primary key can't be Empty" 8 45
 
-				   if [[ `awk 'BEGIN{FS=":" ; ORS=" "}{if(NR != 1 && $(('$i')) == "'$record'" ) print $(('$i'))}' $tableName` != "" ]];then
+	 			      record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
+						 8 50 3>&1 1>&2 2>&3)
+			
+				   elif [[ `awk 'BEGIN{FS=":" ; ORS=" "}{if(NR != 1 && $(('$i')) == "'$record'" ) print $(('$i'))}' $tableName` != "" ]];then
 
 				      dialog --title "Error Message" --msgbox "Primary key can't be duplicated try again" 8 45
 
-	 			      record=$(dialog --title "Record Data" --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
-						 8 45 3>&1 1>&2 2>&3)
+	 			      record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
+						 8 50 3>&1 1>&2 2>&3)
 
 				      test ##calling test function 
 				   else
@@ -83,8 +88,8 @@ function test() {
 
 			dialog --title "Error Message" --msgbox "Not integer, Enter Record Again" 8 45
 		
-			record=$(dialog --title "Record Data" --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
-				8 45 3>&1 1>&2 2>&3)
+			record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
+				8 50 3>&1 1>&2 2>&3)
 		done
 
 	elif [[ $checkDataType == "boolean" ]]; then
@@ -94,8 +99,8 @@ function test() {
 
 	    	      	dialog --title "Error Message" --msgbox "Not a boolean; please try again only" 8 45
 
-	 		record=$(dialog --title "Record Data" --inputbox "Enter data for $checkColname with data type ($checkDataType)" \
-				8 45 3>&1 1>&2 2>&3)
+	 		record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColname with data type ($checkDataType)" \
+				8 50 3>&1 1>&2 2>&3)
 		done
 
 	fi

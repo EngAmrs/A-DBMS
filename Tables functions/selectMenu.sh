@@ -1,7 +1,7 @@
 #!/bin/bash
 function selectMenu () {
 
-menu=$(dialog --title "Select Menu" --fb --menu "select options:" 17 60 0\
+menu=$(dialog --title "Select Menu" --fb --menu "select options:" 12 60 4\
                                 "1" "Select All Columns" \
                                 "2" "Select Specific Columns" \
                                 "3" "Select With Where Condition" \
@@ -17,10 +17,10 @@ menu=$(dialog --title "Select Menu" --fb --menu "select options:" 17 60 0\
 
 						elif [[ -f $tableName ]] && [[ $tableName != "" ]]; then 
 
-							cat $tableName | awk -F: 'BEGIN{OFS="\t"}{for(n = 0; n <= NF; n++) $n=$n}  1' > fil
+							cat $tableName | awk -F: 'BEGIN{OFS="\t"}{for(n = 0; n <= NF; n++) $n=$n} 1' > fil
 							numCol="$(cat $tableName | awk -F ":" 'END{print NF}')"
 							. ../../.prettytable
-							whiptail --title "Table Records" --msgbox "$(cat fil | prettytable ${numCol})" 18 70
+							whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable ${numCol})" 20 70
 							rm fil
 							break
 						else

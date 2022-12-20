@@ -11,7 +11,7 @@ if [[ -d databases/$dbConnect ]] && [[ $dbConnect != .db  ]]; then
 
 	cd databases/$dbConnect 
 	dbConnect=${dbConnect::-3}
-	dialog --title "Connection" --infobox "$dbConnect Database has been connected successfully" 8 45
+	dialog --title "Connection" --infobox "$dbConnect Database has been connected successfully" 8 50
 	sleep 1
 	. ../../"Tables functions"/Table_menu.sh
 	break

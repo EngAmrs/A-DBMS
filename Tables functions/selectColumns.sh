@@ -1,5 +1,12 @@
 #!/bin/bash
 
+function sumRecord(){
+
+	allcol+='$(('$1'))'
+
+}
+
+
 while true ; do 
 
 	tableName=$(dialog --title "List DataBases" --inputbox "Enter Table Name" 8 45 3>&1 1>&2 2>&3)
@@ -63,7 +70,7 @@ while true ; do
 		if [[ $allcol != "" && $allcol != ',' ]]; then
 			`awk 'BEGIN{FS=":";OFS="\t"}{if($0!=""){print '$allcol'}}' $tableName > fil`
 			. ../../.prettytable
-			whiptail --title "Table Records" --msgbox "$(cat fil | prettytable $colNum)" 18 70
+			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable $colNum)" 20 70
 			rm fil
 			break
 
@@ -73,9 +80,3 @@ while true ; do
         fi
 done
 
-
-function sumRecord(){
-
-	allcol+='$(('$1'))'
-
-}

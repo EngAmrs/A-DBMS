@@ -80,9 +80,9 @@ while true ; do
 		
 
 		if [[ $allcol != "" && $allcol != ',' ]]; then
-			`awk 'BEGIN{FS=":";OFS="\t"}{if(NR == $1 || $0!="" && $'$checkcolumnfound'=="'$value'"){print '$allcol'}}' $tableName > fil`
+			`awk 'BEGIN{FS=":";OFS="\t"}{if(NR == 1 ){print '$allcol'}else if($0!="" && $'$checkcolumnfound'=="'$value'"){print '$allcol'}}' $tableName > fil`
 			. ../../.prettytable
-			whiptail --title "Table Records" --msgbox "$(cat fil | prettytable $colNum)" 18 70
+			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable $colNum)" 20 70
 			rm fil
 			break
 
