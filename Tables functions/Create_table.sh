@@ -5,6 +5,7 @@ pk=""
 datatype=""
 count=1
 countp=0
+
 while true
 do
 	#================
@@ -62,7 +63,7 @@ do
 					fi
 
 					### Data type ###
-					datatypeMenu=$(dialog --title "Data Type Menu " --fb --no-cancel --menu "select Data Type" 15 50 4 \
+					datatypeMenu=$(dialog --title "Data Type Menu " --fb --no-cancel --menu "select Data Type" 10 50 3 \
 							"1" "int" \
 							"2" "str" \
 							"3" "boolean" 3>&1 1>&2 2>&3)
@@ -91,7 +92,7 @@ do
 
 					### Primary key ###
 					if [[ $isPK -ne 1 ]]; then
-						PK_menu=$(dialog --title "Primary Key" --fb --no-cancel --menu "Would you like to create it as a primary_key?" 15 50 4 \
+						PK_menu=$(dialog --title "Primary Key" --fb --no-cancel --menu "Would you like to create it as a primary_key?" 10 50 2 \
 							"1" "Yes" \
 							"2" "No" 3>&1 1>&2 2>&3)
 
@@ -118,7 +119,7 @@ do
 			fi	
 		done
 		((countp=count-1))
-		dialog --title "Creating table..." --infobox "$table table with $countp columns has been created sucessfully" 8 45
+		dialog --title "Creating table..." --infobox "$table table with $countp columns has been created sucessfully" 8 55
 		sleep 1
 		break
 	else
