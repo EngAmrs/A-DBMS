@@ -1,3 +1,0 @@
-id:int
-name:str:(PK)
-age:int

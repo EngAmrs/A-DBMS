@@ -28,6 +28,7 @@ do
                         else
                             sed -i ''$recordNo'd' $tableName
                             dialog --title "Record" --msgbox "record deleted sucessfully" 8 45
+                            break
                         fi
                     fi
                 fi
