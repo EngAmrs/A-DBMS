@@ -19,8 +19,9 @@ menu=$(dialog --title "Select Menu" --fb --menu "select options:" 12 60 4\
 
 							cat $tableName | awk -F: 'BEGIN{OFS="\t"}{for(n = 0; n <= NF; n++) $n=$n} 1' > fil
 							numCol="$(cat $tableName | awk -F ":" 'END{print NF}')"
+							length="$(cat fil | awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')"
 							. ../../.prettytable
-							whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable ${numCol})" 20 70
+							whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable ${numCol})" 20 $(("$length"+11))
 							rm fil
 							break
 						else

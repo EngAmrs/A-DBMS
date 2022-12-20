@@ -69,8 +69,9 @@ while true ; do
 
 		if [[ $allcol != "" && $allcol != ',' ]]; then
 			`awk 'BEGIN{FS=":";OFS="\t"}{if($0!=""){print '$allcol'}}' $tableName > fil`
+			length="$(cat fil | awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')"
 			. ../../.prettytable
-			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable $colNum)" 20 70
+			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable $colNum)" 20 $(("$length"+11))
 			rm fil
 			break
 
