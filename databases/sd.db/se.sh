@@ -1,18 +1,10 @@
 #!/bin/bash
-num=3
-record=''
+checkcolumnfound=2
+record='$1,$2,$#'
 
-
-sum $num
+value="ali"
 
 tableName="file"
-i=1
-
-awk 'BEGIN{FS=":";OFS=":"}{if($0!=""){print '$record'}}' $tableName >> fil
 
 
-function sum(){
-
-	record+='$(('$1'))'
-
-}
+`awk 'BEGIN{FS=":";OFS="\t"}{if($0!="" && $'$checkcolumnfound'== '$value' ){print '$allcol'}}' $tableName > fil`

@@ -60,8 +60,27 @@ while true ; do
 						
 		fi
 
+		while true ;do 
+
+			where=$(dialog --title "where"  --inputbox "Enter Column where" 8 45 3>&1 1>&2 2>&3)
+			checkcolumnfound=$(awk 'BEGIN{FS=":"}{if(NR==1){for(i=1;i<=NF;i++){if($i=="'$where'") print i}}}' $tableName)
+			if [[ $colname == "" ]]; then
+
+				break 2
+
+			elif [[ $checkcolumnfound == "" ]]; then
+						
+				dialog --title "Error Message" --msgbox "Column doesn't exist" 8 45
+			else
+				value=$(dialog --title "value"  --inputbox "Enter value" 8 45 3>&1 1>&2 2>&3)
+				break						
+			fi
+	
+		done 
+		
+
 		if [[ $allcol != "" && $allcol != ',' ]]; then
-			`awk 'BEGIN{FS=":";OFS="\t"}{if($0!=""){print '$allcol'}}' $tableName > fil`
+			`awk 'BEGIN{FS=":";OFS="\t"}{if(NR == $1 || $0!="" && $'$checkcolumnfound'=="'$value'"){print '$allcol'}}' $tableName > fil`
 			. ../../.prettytable
 			whiptail --title "Table Records" --msgbox "$(cat fil | prettytable $colNum)" 18 70
 			rm fil
