@@ -30,9 +30,9 @@ do
                             if [[ $recordNo == "" ]] ; then
                                 dialog --title "Error Message" --msgbox "Record doesn't exist" 8 45
                                 break
-                            else
+                            else                           
                                 sed -i ''$recordNo'd' $tableName
-                                dialog --title "Record" --msgbox "record deleted sucessfully" 8 45
+                                dialog --title "Record" --msgbox "Your record has been deleted successfully" 8 45
                                 break
                             fi
 

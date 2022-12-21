@@ -54,12 +54,10 @@ function main(){
             elif [[ $checkcolumnfound ]] && [[ $checkcolumnfound != "" ]]; then
                 condrecordNo=$(awk 'BEGIN{FS=":"}{if ($'$checkcolumnfound'=="'$condvalue'") print $'$checkcolumnfound'}' $tableName)
                 recordNo=$(awk 'BEGIN{FS=":"}{if ($'$checkcolumnfound'=="'$condvalue'") print NR}' $tableName)
-
-
-                if [[ $condrecordNo == "" ]]; then
+                
+                if [[ $recordNo == "" ]]; then
                     dialog --title "Error Message" --msgbox "This value dosen't Exist" 8 45
                 else
-
                     if [[ $recordNo == 1 ]] ; then
 
                         dialog --title "Error Message" --msgbox "It's the column name" 8 45
@@ -75,9 +73,7 @@ function main(){
                             checkDataType=$(awk 'BEGIN{FS=":"}{if($1=="'$Target_Column'") print $2}' .$tableName)
                             checkIsPrimary=$(awk 'BEGIN{FS=":"}{if($1=="'$Target_Column'") print $3}' .$tableName)
                             datatypeTest
-                            primaryTest
-                            break
-
+                            
                         fi
                     fi
                 fi
@@ -94,27 +90,8 @@ function main(){
 
 ### Checking Functions ###
 
-function datatypeTest() {
-	if [[ $checkDataType == "int" ]]; then
-
-		while ! [[ $newrecord =~ ^[0-9]+$ ]]; do
-
-			dialog --title "Error Message" --msgbox "Not integer, Enter Record Again" 8 45
-            break
-		done
-
-	elif [[ $checkDataType == "boolean" ]]; then
-
-	    while ! [[ $newrecord = "true" || $newrecord = "false" || $newrecord = "TRUE" || $newrecord = "FALSE" ||  \
-			$newrecord = "T" || $newrecord = "t" || $newrecord = "F" || $newrecord = "f" ]]; do
-
-	    	    dialog --title "Error Message" --msgbox "Not a boolean; please try again only" 8 45
-                break
-		done        
-	fi
-}
-
 function primaryTest() {
+  
     if [[ $checkIsPrimary == "(PK)" ]]; then
         colsNum=`awk 'END {print NR}' .$tableName` 
             
@@ -139,7 +116,7 @@ function primaryTest() {
                     elif [[ $tst != $newrecord ]]; then
 
                             if [[ $i == $columnsMax ]]; then
-                            oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordNo'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName)
+                                oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordNo'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName)
                                 sed -i ''$recordNo's/'$oldrecord'/'$newrecord'/g' $tableName
                                 dialog --title "Record" --msgbox "record updated sucessfully" 8 45
                                 break 2    
@@ -148,7 +125,47 @@ function primaryTest() {
                 done
                 
         done
+    else
+        oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordNo'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName)
+        sed -i ''$recordNo's/'$oldrecord'/'$newrecord'/g' $tableName
+        dialog --title "Record" --msgbox "record updated sucessfully" 8 45
+        break 2     
     fi
 }
+
+
+function datatypeTest() {
+	if [[ $checkDataType == "int" ]]; then
+
+		while ! [[ $newrecord =~ ^[0-9]+$ ]]; do
+            
+			dialog --title "Error Message" --msgbox "Not integer, Enter Record Again" 8 45
+            break
+		done
+        if [[ $newrecord =~ ^[0-9]+$ ]]; then
+            primaryTest
+        fi
+
+
+	elif [[ $checkDataType == "boolean" ]]; then
+	    while ! [[ $newrecord = "true" || $newrecord = "false" || $newrecord = "TRUE" || $newrecord = "FALSE" ||  \
+			$newrecord = "T" || $newrecord = "t" || $newrecord = "F" || $newrecord = "f" ]]; do
+
+	    	    dialog --title "Error Message" --msgbox "Not a boolean; please try again only" 8 45
+                break
+		done 
+        if [[ $newrecord = "true" || $newrecord = "false" || $newrecord = "TRUE" || $newrecord = "FALSE" ||  \
+			$newrecord = "T" || $newrecord = "t" || $newrecord = "F" || $newrecord = "f" ]]; then
+            
+            primaryTest
+        fi 
+    elif [[ $checkDataType == "str" && $newrecord == "" ]]; then
+        dialog --title "Error Message" --msgbox "Not string, Enter Record Again" 8 45
+            break
+    else
+        primaryTest        
+	fi
+}
+
 
 main
