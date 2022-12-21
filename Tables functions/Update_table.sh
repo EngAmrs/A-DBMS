@@ -76,6 +76,7 @@ function main(){
                             checkIsPrimary=$(awk 'BEGIN{FS=":"}{if($1=="'$Target_Column'") print $3}' .$tableName)
                             datatypeTest
                             primaryTest
+                            break
 
                         fi
                     fi
