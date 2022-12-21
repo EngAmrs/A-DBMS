@@ -19,10 +19,19 @@ menu=$(dialog --title "Select Menu" --fb --menu "select options:" 12 60 4\
 
 							cat $tableName | awk -F: 'BEGIN{OFS="\t"}{for(n = 0; n <= NF; n++) $n=$n} 1' > fil
 							numCol="$(cat $tableName | awk -F ":" 'END{print NF}')"
-							length="$(cat fil | awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')"
+							cat fil | sed -r 's/[┘]+/ /g' > fil2
+
+							typeset -i length
+							length=0							
+							for (( i=1;i<=$numCol;i++)) 
+							do 
+							length+=$(cut -d$'\t' -f$i fil2| awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')
+							done
+							
 							. ../../.prettytable
-							whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable ${numCol})" 20 $(("$length"+11))
-							rm fil
+							whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil2 | prettytable ${numCol})" 20\
+								 $(("$length"+(("$numCol"+1)*4)))
+							rm fil fil2
 							break
 						else
 							break

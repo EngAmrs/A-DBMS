@@ -24,29 +24,36 @@ do
 			
 			record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
 				 8 50 3>&1 1>&2 2>&3)
-	
+
+			record=$(sed -r 's/[" "]+/┘/g' <<< $record)
+
 			test ##calling test function 
 
+			
 		#check Primary key
 
 			if [[ $checkIsPrimary == "(PK)" ]]; then
 
 				while [[ true ]]; do 
 			
-				   if [[ $record == "" ]];then
+				   if [[ -z "${record// }" ]];then
 				      dialog --title "Error Message" --msgbox "Primary key can't be Empty" 8 45
 
-	 			      record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
-						 8 50 3>&1 1>&2 2>&3)
-			
+	 			     record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type
+($checkDataType)" 8 50 3>&1 1>&2 2>&3)
+				     record=$(sed -r 's/[" "]+/┘/g' <<< $record)
+ 					test ##calling test function 
+
+
 				   elif [[ `awk 'BEGIN{FS=":" ; ORS=" "}{if(NR != 1 && $(('$i')) == "'$record'" ) print $(('$i'))}' $tableName` != "" ]];then
 
-				      dialog --title "Error Message" --msgbox "Primary key can't be duplicated try again" 8 45
+				      dialog --title "Error Message" --msgbox "Primary key can't be duplicated try again" 8 50
 
-	 			      record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type ($checkDataType)" \
-						 8 50 3>&1 1>&2 2>&3)
-
+				     record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColName with data type
+($checkDataType)" 8 50 3>&1 1>&2 2>&3)
+				      record=$(sed -r 's/[" "]+/┘/g' <<< $record)
 				      test ##calling test function 
+			
 				   else
 
 				      break;
@@ -64,7 +71,7 @@ do
 				echo -n $record$fasel >> $tableName
 
 			else
-				echo $record >> $tableName
+				echo $record  >> $tableName
 				
 			fi
 		done 
@@ -97,7 +104,7 @@ function test() {
 	      	while ! [[ $record = "true" || $record = "false" || $record = "TRUE" || $record = "FALSE" ||  \
 				$record = "T" || $record = "t" || $record = "F" || $record = "f" ]]; do
 
-	    	      	dialog --title "Error Message" --msgbox "Not a boolean; please try again only" 8 45
+	    	      	dialog --title "Error Message" --msgbox "Not a boolean; please try again" 8 45
 
 	 		record=$(dialog --title "Record Data" --no-cancel --inputbox "Enter data for $checkColname with data type ($checkDataType)" \
 				8 50 3>&1 1>&2 2>&3)
