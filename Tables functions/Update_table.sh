@@ -117,6 +117,7 @@ function primaryTest() {
 
                             if [[ $i == $columnsMax ]]; then
                                 oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordNo'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName)
+                                newrecord=`sed -r 's/[" "]+/┘/g' <<< $newrecord`
                                 sed -i ''$recordNo's/'$oldrecord'/'$newrecord'/g' $tableName
                                 dialog --title "Record" --msgbox "record updated sucessfully" 8 45
                                 break 2    
@@ -127,9 +128,10 @@ function primaryTest() {
         done
     else
         oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordNo'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName)
+        newrecord=`sed -r 's/[" "]+/┘/g' <<< $newrecord`
         sed -i ''$recordNo's/'$oldrecord'/'$newrecord'/g' $tableName
         dialog --title "Record" --msgbox "record updated sucessfully" 8 45
-        break 2     
+        Table_menu     
     fi
 }
 

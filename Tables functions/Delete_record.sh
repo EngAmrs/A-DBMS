@@ -22,6 +22,7 @@ do
 
                     for (( ; ; )); do
                         value=$(dialog --title "Column Record" --inputbox "Enter the column value of the record" 8 45 3>&1 1>&2 2>&3)
+                        value=`sed -r 's/[" "]+/┘/g' <<< $value`
                         recordNo=$(awk 'BEGIN{FS=":"}{if ($'$checkcolumnfound'=="'$value'") print NR}' $tableName)
                         if [[ $recordNo == 1 ]] ; then
                             dialog --title "Error Message" --msgbox "This record can't be delete" 8 45
@@ -30,10 +31,12 @@ do
                             if [[ $recordNo == "" ]] ; then
                                 dialog --title "Error Message" --msgbox "Record doesn't exist" 8 45
                                 break
-                            else                           
-                                sed -i ''$recordNo'd' $tableName
+                            else
+                                record_wc=`echo -e "$recordNo" | wc -l`
+                                recordss=$(echo -e "$recordNo" | awk 'NR==1')                          
+                                sed -i ''$recordss'd' $tableName
                                 dialog --title "Record" --msgbox "Your record has been deleted successfully" 8 45
-                                break
+                                break 3
                             fi
 
                         else

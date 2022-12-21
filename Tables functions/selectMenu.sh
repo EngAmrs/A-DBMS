@@ -50,7 +50,7 @@ menu=$(dialog --title "Select Menu" --fb --menu "select options:" 12 60 4\
 					selectMenu
                                         ;;
                                 4)
-                                        . ./../../"Tables functions"/Table_menu.sh
+                                
 					;;
                               
                         esac
