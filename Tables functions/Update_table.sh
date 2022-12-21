@@ -97,10 +97,6 @@ function main(){
 ### Checking Functions ###
 
 function primaryTest() {
-  if [[ $recordNo == "" ]] && [[ $condvalue == "" ]]; then
-    dialog --title "Error Message" --msgbox "The condition value is not found" 8 45
-    break
-    fi
     if [[ $checkIsPrimary == "(PK)" ]]; then
         colsNum=`awk 'END {print NR}' .$tableName` 
             
