@@ -10,6 +10,7 @@ dropName+=.db
 if [[ -d databases/$dropName ]] && [[ $dropName != .db  ]] ; then
 	
 	rm -R databases/$dropName
+	rm databases/".$dropName"
 	dropName=${dropName::-3}
 	dialog --title "Drop Databse" --infobox "$dropName database has been dropped sucessfully" 8 45
 	sleep 1
