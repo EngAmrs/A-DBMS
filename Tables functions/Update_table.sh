@@ -55,15 +55,21 @@ function main(){
                 condrecordNo=$(awk 'BEGIN{FS=":"}{if ($'$checkcolumnfound'=="'$condvalue'") print $'$checkcolumnfound'}' $tableName)
                 recordNo=$(awk 'BEGIN{FS=":"}{if ($'$checkcolumnfound'=="'$condvalue'") print NR}' $tableName)
                 
-                if [[ $recordNo == "" ]]; then
-                    dialog --title "Error Message" --msgbox "This value dosen't Exist" 8 45
-                else
-                    if [[ $recordNo == 1 ]] ; then
+            
+                if [[ $recordNo == "" ]] && [[ $condvalue != "" ]]; then
+
+                    dialog --title "Error Message" --msgbox "The condition value is not found" 8 45
+
+                else 
+                        if [[ $recordNo == "" ]] && [[ $condvalue == "" ]]; then
+                            recordNo=$(awk 'BEGIN{FS=":"}{print NR}' $tableName)
+                        fi        
+
+                        if [[ $recordNo == 1 ]] ; then
 
                         dialog --title "Error Message" --msgbox "It's the column name" 8 45
 
                     else
-
                         checkfieldfound=$(awk 'BEGIN{FS=":"}{if(NR==1){for(i=1;i<=NF;i++){if($i=="'$Target_Column'") print i}}}' $tableName)
 
                         if [[ $checkfieldfound == "" ]] ; then 
@@ -76,7 +82,7 @@ function main(){
                             
                         fi
                     fi
-                fi
+                fi    
             else
                 break    
             fi
@@ -91,7 +97,10 @@ function main(){
 ### Checking Functions ###
 
 function primaryTest() {
-  
+  if [[ $recordNo == "" ]] && [[ $condvalue == "" ]]; then
+    dialog --title "Error Message" --msgbox "The condition value is not found" 8 45
+    break
+    fi
     if [[ $checkIsPrimary == "(PK)" ]]; then
         colsNum=`awk 'END {print NR}' .$tableName` 
             
@@ -120,16 +129,22 @@ function primaryTest() {
                                 newrecord=`sed -r 's/[" "]+/┘/g' <<< $newrecord`
                                 sed -i ''$recordNo's/'$oldrecord'/'$newrecord'/g' $tableName
                                 dialog --title "Record" --msgbox "record updated sucessfully" 8 45
-                                break 2    
+                                break 2                  
                             fi
                     fi     
                 done
                 
         done
     else
-        oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordNo'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName)
+
+    record_wc=`echo -e "$recordNo" | wc -l`
+    for (( i=$record_wc ; i >= 2 ; i-- )); do
         newrecord=`sed -r 's/[" "]+/┘/g' <<< $newrecord`
-        sed -i ''$recordNo's/'$oldrecord'/'$newrecord'/g' $tableName
+        recordss=$(echo -e "$recordNo" | awk 'NR=='$i'')
+        oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordss'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName) 
+        sed -i ''$recordss's/'$oldrecord'/'$newrecord'/g' $tableName
+        done
+
         dialog --title "Record" --msgbox "record updated sucessfully" 8 45
         Table_menu     
     fi

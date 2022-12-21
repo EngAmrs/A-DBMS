@@ -33,9 +33,11 @@ do
                                 break
                             else
                                 record_wc=`echo -e "$recordNo" | wc -l`
-                                recordss=$(echo -e "$recordNo" | awk 'NR==1')                          
-                                sed -i ''$recordss'd' $tableName
-                                dialog --title "Record" --msgbox "Your record has been deleted successfully" 8 45
+                                for (( i=$record_wc ; i >= 1 ; i-- )); do
+                                recordss=$(echo -e "$recordNo" | awk 'NR=='$i'')                         
+                                sed -i ''$recordss'd' $tableName       
+                                done
+                                dialog --title "Record" --msgbox "Your record deletion has been proceeded successfully" 8 45
                                 break 3
                             fi
 

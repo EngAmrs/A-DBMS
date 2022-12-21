@@ -1,0 +1,5 @@
+Column 1:str
+Column 2:int:(PK)
+Column 3:int
+Column 4:int
+Column 5:int

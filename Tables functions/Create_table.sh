@@ -59,7 +59,7 @@ do
 					if [[ $col_name == "" ]]; then
 						col_name="Column $count"
 						dialog --title "Creating Column..." --infobox "Column created under $col_name" 8 45
-						sleep 1	
+						sleep 1.3	
 					fi
 
 					### Data type ###
