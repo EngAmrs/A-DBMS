@@ -2,7 +2,7 @@
 
 while true ; do 
 
-	tableName=$(dialog --title "List DataBases" --inputbox "Enter Table Name" 8 45 3>&1 1>&2 2>&3)
+	tableName=$(dialog --title "List DataBases" --inputbox "Enter Table Name" 10 45 3>&1 1>&2 2>&3)
                                         
 	if [[ ! -f $tableName ]] && [[ $tableName != "" ]]; then 
                                                 
@@ -15,14 +15,14 @@ while true ; do
 
 		while true ; do
 						              
-		colNum=$(dialog --title "List DataBases" --inputbox "Enter number of column display from { 1 to $numCol }" 8 45 3>&1 1>&2 2>&3)
+		colNum=$(dialog --title "List DataBases" --inputbox "Enter number of column display from { 1 to $numCol }" 10 45 3>&1 1>&2 2>&3)
 
 		if [[ $colNum == "" ]];then 
 			break 2
 		elif [[ $colNum != [0-9]* ]];then
 			dialog --title "Error Message" --msgbox "please enter number " 8 45
 		elif [[ $colNum > $numCol ]];then
-			dialog --title "Error Message" --msgbox "please enter number from { 1 to $numCol }" 8 45
+			dialog --title "Error Message" --msgbox "please enter number from { 1 to $numCol }" 10 45
 		else 
 			break
 		fi
@@ -34,7 +34,7 @@ while true ; do
 
 				while true ; do 
 
-					colname=$(dialog --title "Table Records"  --inputbox "Enter Column $i Name" 8 45 3>&1 1>&2 2>&3)
+					colname=$(dialog --title "Table Records"  --inputbox "Enter Column $i Name" 10 45 3>&1 1>&2 2>&3)
 					checkcolumnfound=$(awk 'BEGIN{FS=":"}{if(NR==1){for(i=1;i<=NF;i++){if($i=="'$colname'") print i}}}' $tableName)
 						
 						if [[ $colname == "" ]]; then
@@ -44,7 +44,7 @@ while true ; do
 
 						elif [[ $checkcolumnfound == "" ]]; then
 						
-							dialog --title "Error Message" --msgbox "Column doesn't exist" 8 45
+							dialog --title "Error Message" --msgbox "Column doesn't exist" 10 45
 						else
 							break						
 						fi
@@ -62,7 +62,7 @@ while true ; do
 
 		while true ;do 
 
-			where=$(dialog --title "where"  --inputbox "Enter Column where" 8 45 3>&1 1>&2 2>&3)
+			where=$(dialog --title "where"  --inputbox "Enter name of Column { where }" 10 45 3>&1 1>&2 2>&3)
 			checkcolumnfound=$(awk 'BEGIN{FS=":"}{if(NR==1){for(i=1;i<=NF;i++){if($i=="'$where'") print i}}}' $tableName)
 			if [[ $colname == "" ]]; then
 
@@ -70,9 +70,9 @@ while true ; do
 
 			elif [[ $checkcolumnfound == "" ]]; then
 						
-				dialog --title "Error Message" --msgbox "Column doesn't exist" 8 45
+				dialog --title "Error Message" --msgbox "Column doesn't exist" 10 45
 			else
-				value=$(dialog --title "value"  --inputbox "Enter value" 8 45 3>&1 1>&2 2>&3)
+				value=$(dialog --title "value"  --inputbox "Enter value in column" 10 45 3>&1 1>&2 2>&3)
 				break						
 			fi
 	
@@ -81,10 +81,17 @@ while true ; do
 
 		if [[ $allcol != "" && $allcol != ',' ]]; then
 			`awk 'BEGIN{FS=":";OFS="\t"}{if(NR == 1 ){print '$allcol'}else if($0!="" && $'$checkcolumnfound'=="'$value'"){print '$allcol'}}' $tableName > fil`
-			length="$(cat fil | awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')"
+			cat fil | sed -r 's/[┘]+/ /g' > fil2
+			typeset -i length
+			length=0							
+			for (( i=1;i<=$numCol;i++)) 
+			do 
+				length+=$(cut -d$'\t' -f$i fil2| awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')
+			done
+
 			. ../../.prettytable
-			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable $colNum)" 20 $(("$length"+10))
-			rm fil
+			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil2 | prettytable $colNum)" 20 $(("$length"+(("$colNum"+1)*4)))
+			rm fil fil2
 			break
 
 		fi

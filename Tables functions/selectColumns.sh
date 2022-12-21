@@ -69,10 +69,17 @@ while true ; do
 
 		if [[ $allcol != "" && $allcol != ',' ]]; then
 			`awk 'BEGIN{FS=":";OFS="\t"}{if($0!=""){print '$allcol'}}' $tableName > fil`
-			length="$(cat fil | awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')"
+			cat fil | sed -r 's/[┘]+/ /g' > fil2
+
+			typeset -i length
+			length=0							
+			for (( i=1;i<=$numCol;i++)) 
+			do 
+				length+=$(cut -d$'\t' -f$i fil2| awk -F "" 'BEGIN{len=0}{if(len<NF)len=NF}END{print len}')
+			done
 			. ../../.prettytable
-			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil | prettytable $colNum)" 20 $(("$length"+11))
-			rm fil
+			whiptail --title "Table Records" --scrolltext --msgbox "$(cat fil2 | prettytable $colNum)" 20 $(("$length"+(("$colNum"+1)*4)))
+			rm fil fil2
 			break
 
 		fi
