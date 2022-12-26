@@ -133,13 +133,11 @@ function primaryTest() {
         done
     else
 
-    record_wc=`echo -e "$recordNo" | wc -l`
-    for (( i=$record_wc ; i >= 2 ; i-- )); do
+    	#record_wc=`echo -e "$recordNo" | wc -l`
         newrecord=`sed -r 's/[" "]+/┘/g' <<< $newrecord`
-        recordss=$(echo -e "$recordNo" | awk 'NR=='$i'')
-        oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordss'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName) 
-        sed -i ''$recordss's/'$oldrecord'/'$newrecord'/g' $tableName
-        done
+        #recordss=$(echo -e "$recordNo" | awk 'NR=='$i'')
+        oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$recordNo'){for(i=1;i<=NF;i++){if(i=='$checkfieldfound') print $i}}}' $tableName) 
+        sed -i ''$recordNo's/'$oldrecord'/'$newrecord'/g' $tableName
 
         dialog --title "Record" --msgbox "record updated sucessfully" 8 45
         Table_menu     
